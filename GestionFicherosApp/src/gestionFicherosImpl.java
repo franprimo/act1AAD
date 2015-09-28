@@ -153,8 +153,19 @@ public class gestionFicherosImpl implements GestionFicheros {
 		strBuilder.append("\n");
 		
 		//Tipo: fichero o directorio
+		strBuilder.append("Tipo: ");
+		boolean esFichero = file.isFile();
+		if(esFichero){
+			strBuilder.append("Fichero");
+		}else{
+			strBuilder.append("Directorio");
+		}
+		strBuilder.append("\n");
 		
 		//Ubicación
+		strBuilder.append("Localización: ");
+		strBuilder.append(file.getAbsolutePath());
+		strBuilder.append("\n");
 		
 		//Fecha de última modificación
 		
