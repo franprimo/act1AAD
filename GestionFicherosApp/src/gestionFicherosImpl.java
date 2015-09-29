@@ -1,10 +1,11 @@
 
-import java.io.File;
-
 import gestionficheros.FormatoVistas;
 import gestionficheros.GestionFicheros;
 import gestionficheros.GestionFicherosException;
 import gestionficheros.TipoOrden;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
 
 public class gestionFicherosImpl implements GestionFicheros {
 	private File carpetaDeTrabajo = null;
@@ -139,7 +140,7 @@ public class gestionFicherosImpl implements GestionFicheros {
 		
 		StringBuilder strBuilder=new StringBuilder();
 		File file = new File(carpetaDeTrabajo,arg0);
-		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 		//Controlar que existe. Si no, se lanzará una excepción
 		//Controlar que haya permisos de lectura. Si no, se lanzará una excepción
 		
@@ -168,6 +169,9 @@ public class gestionFicherosImpl implements GestionFicheros {
 		strBuilder.append("\n");
 		
 		//Fecha de última modificación
+		strBuilder.append("Última modificación: ");
+		strBuilder.append(sdf.format(getUltimaModificacion(file.getAbsolutePath())));
+		strBuilder.append("\n");
 		
 		//Si es un fichero oculto o no
 		
@@ -202,8 +206,11 @@ public class gestionFicherosImpl implements GestionFicheros {
 	@Override
 	public long getUltimaModificacion(String arg0)
 			throws GestionFicherosException {
-		// TODO Auto-generated method stub
-		return 0;
+		File file = new File(arg0);
+		Long ultFechaMod;
+		ultFechaMod = file.lastModified();
+		
+		return ultFechaMod;
 	}
 
 	@Override
