@@ -141,8 +141,17 @@ public class gestionFicherosImpl implements GestionFicheros {
 		StringBuilder strBuilder=new StringBuilder();
 		File file = new File(carpetaDeTrabajo,arg0);
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+		
 		//Controlar que existe. Si no, se lanzará una excepción
+		if(!file.exists()){
+			throw new GestionFicherosException("Alerta. No existe el fichero o directorio "
+					+ file.getAbsolutePath());
+		}
 		//Controlar que haya permisos de lectura. Si no, se lanzará una excepción
+		if(!file.canRead()){
+			throw new GestionFicherosException("Alerta. No se puede acceder al fichero o directorio "
+					+ file.getAbsolutePath() + ". No hay permiso");
+		}
 		
 		//Título
 		strBuilder.append("INFORMACIÓN DEL SISTEMA");
@@ -227,6 +236,8 @@ public class gestionFicherosImpl implements GestionFicheros {
 			throws GestionFicherosException {
 		File file = new File(arg0);
 		Long ultFechaMod;
+		//Utilizando el metodo lastModified obtengo la fecha de la ultima modificacion en milisegundos.
+		//Luego, le doy el formato correcto usando SimpleDateFormat en el metodo getInformacion.
 		ultFechaMod = file.lastModified();
 		
 		return ultFechaMod;
