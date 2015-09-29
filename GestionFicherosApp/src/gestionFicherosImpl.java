@@ -174,9 +174,28 @@ public class gestionFicherosImpl implements GestionFicheros {
 		strBuilder.append("\n");
 		
 		//Si es un fichero oculto o no
+		strBuilder.append("Oculto: ");
+		boolean esOculto = file.isHidden();
+		if(esOculto){
+			strBuilder.append("Si");
+		}else{
+			strBuilder.append("No");
+		}
+		strBuilder.append("\n");
 		
 		//Si es directorio: Espacio libre, espacio disponible, espacio total
 		//bytes
+		if(!esFichero){
+			strBuilder.append("Espacio libre del directorio: ");
+			strBuilder.append(file.getFreeSpace()+" bytes");
+			strBuilder.append("\n");			
+			strBuilder.append("Espacio disponible del directorio: ");
+			strBuilder.append(file.getUsableSpace()+" bytes");
+			strBuilder.append("\n");			
+			strBuilder.append("Espacio total del directorio: ");
+			strBuilder.append(file.getTotalSpace()+" bytes");
+			strBuilder.append("\n");
+		}
 		
 		return strBuilder.toString();
 	}
