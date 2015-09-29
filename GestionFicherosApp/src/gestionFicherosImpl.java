@@ -121,7 +121,6 @@ public class gestionFicherosImpl implements GestionFicheros {
 
 	@Override
 	public String getEspacioTotalCarpetaTrabajo() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -167,6 +166,9 @@ public class gestionFicherosImpl implements GestionFicheros {
 		boolean esFichero = file.isFile();
 		if(esFichero){
 			strBuilder.append("Fichero");
+			strBuilder.append("\n");
+			strBuilder.append("Tamaño: ");
+			strBuilder.append(file.length()+" bytes");
 		}else{
 			strBuilder.append("Directorio");
 		}
@@ -195,6 +197,14 @@ public class gestionFicherosImpl implements GestionFicheros {
 		//Si es directorio: Espacio libre, espacio disponible, espacio total
 		//bytes
 		if(!esFichero){
+			int elem = 0;
+			strBuilder.append("Numero de elementos contenidos: ");
+			//Creo un array con los elementos que estan contenidos en el directorio y lo recorro para saber cuantos hay.
+			for(int i=0;i<file.list().length;i++){
+				elem++;
+			}
+			strBuilder.append(elem+" elementos");
+			strBuilder.append("\n");
 			strBuilder.append("Espacio libre del directorio: ");
 			strBuilder.append(file.getFreeSpace()+" bytes");
 			strBuilder.append("\n");			
