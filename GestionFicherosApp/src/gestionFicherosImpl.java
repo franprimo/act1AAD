@@ -139,6 +139,7 @@ public class gestionFicherosImpl implements GestionFicheros {
 		
 		StringBuilder strBuilder=new StringBuilder();
 		File file = new File(carpetaDeTrabajo,arg0);
+		//Creo un objeto de tipo SimpleDateFormat para darle el formato pedido a la fecha de última modificación.
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 		
 		//Controlar que existe. Si no, se lanzará una excepción
@@ -163,6 +164,8 @@ public class gestionFicherosImpl implements GestionFicheros {
 		
 		//Tipo: fichero o directorio
 		strBuilder.append("Tipo: ");
+		//Creo una variable booleana en la que analizo el resultado del metodo isFile(). Si es verdadero muestro que es fichero,
+		//si es falso, muestro que es un directorio.
 		boolean esFichero = file.isFile();
 		if(esFichero){
 			strBuilder.append("Fichero");
@@ -186,6 +189,7 @@ public class gestionFicherosImpl implements GestionFicheros {
 		
 		//Si es un fichero oculto o no
 		strBuilder.append("Oculto: ");
+		//Creo una variable booleana para saber si es oculto o no. Dependiendo de lo que devuelva dicho metodo, aparece Si o No.
 		boolean esOculto = file.isHidden();
 		if(esOculto){
 			strBuilder.append("Si");
