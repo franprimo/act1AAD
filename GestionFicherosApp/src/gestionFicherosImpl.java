@@ -5,6 +5,7 @@ import gestionficheros.GestionFicherosException;
 import gestionficheros.TipoOrden;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 
 public class gestionFicherosImpl implements GestionFicheros {
@@ -59,22 +60,69 @@ public class gestionFicherosImpl implements GestionFicheros {
 	@Override
 	public void creaCarpeta(String arg0) throws GestionFicherosException {
 		File file = new File(carpetaDeTrabajo,arg0);
+
 		//que se pueda escribir -> lanzará una excepción
+
 		//que no exista -> lanzará una excepción
+
 		//crear la carpeta -> lanzará una excepción
+
+		
+		if(!file.exists()){
+			if(carpetaDeTrabajo.canWrite()){
+				file.mkdir();	
+			}else{
+				throw new GestionFicherosException("Error. No tiene permiso de escritura");
+			}			
+		}else{
+			throw new GestionFicherosException("Error. Ya existe una carpeta con ese nombre");
+		}
+		
+		if(file.mkdir()){
+			throw new GestionFicherosException("Error. Imposible crear la carpeta "
+					+ arg0);
+		}
+		
 		actualiza();
 	}
 
 	@Override
 	public void creaFichero(String arg0) throws GestionFicherosException {
-		// TODO Auto-generated method stub
-
+		File file = new File(carpetaDeTrabajo, arg0);
+		
+		if(!file.exists()){
+			if(carpetaDeTrabajo.canWrite()){
+				try {
+					file.createNewFile();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}else{
+				throw new GestionFicherosException("Error. No tiene permiso de escritura");
+			}
+		}else{
+			throw new GestionFicherosException("Error. Ya existe un archivo con ese nombre");
+		}
+		
+		actualiza();
 	}
 
 	@Override
 	public void elimina(String arg0) throws GestionFicherosException {
-		// TODO Auto-generated method stub
-
+		File file = new File(carpetaDeTrabajo, arg0);
+		
+		if(file.exists()){
+			if(carpetaDeTrabajo.canWrite()){
+				file.delete();
+			}else{
+				throw new GestionFicherosException("Error. No tiene permiso de escritura");
+			}
+		}else{
+			throw new GestionFicherosException("Error. No existe el elemento");
+		}
+		
+		actualiza();
 	}
 
 	@Override
@@ -272,8 +320,20 @@ public class gestionFicherosImpl implements GestionFicheros {
 	@Override
 	public void renombra(String arg0, String arg1)
 			throws GestionFicherosException {
-		// TODO Auto-generated method stub
-
+		File file = new File(carpetaDeTrabajo, arg0);
+		File file2 = new File(carpetaDeTrabajo, arg1); 
+		
+		if(file.exists()){
+			if(file.canWrite()){
+				file.renameTo(file2);
+			}else{
+				throw new GestionFicherosException("Error. No tiene permiso de escritura");
+			}
+		}else{
+			throw new GestionFicherosException("Error. No existe el elemento "+arg0);
+		}
+		
+		actualiza();
 	}
 
 	@Override
