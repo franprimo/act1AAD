@@ -61,20 +61,17 @@ public class gestionFicherosImpl implements GestionFicheros {
 	public void creaCarpeta(String arg0) throws GestionFicherosException {
 		File file = new File(carpetaDeTrabajo,arg0);
 
-		//que se pueda escribir -> lanzará una excepción
-
-		//que no exista -> lanzará una excepción
-
-		//crear la carpeta -> lanzará una excepción
-
-		
+		//Compruebo que no existe un elemento con el mismo nombre.
 		if(!file.exists()){
+			//Si tenemos permisos de escritura podremos crear la carpeta.
 			if(carpetaDeTrabajo.canWrite()){
 				file.mkdir();	
 			}else{
+				//Si no, se genera un error.
 				throw new GestionFicherosException("Error. No tiene permiso de escritura");
 			}			
 		}else{
+			//Si ya existe una carpeta con ese mismo nombre nos aparece un mensaje de error.
 			throw new GestionFicherosException("Error. Ya existe una carpeta con ese nombre");
 		}
 		
@@ -82,7 +79,7 @@ public class gestionFicherosImpl implements GestionFicheros {
 			throw new GestionFicherosException("Error. Imposible crear la carpeta "
 					+ arg0);
 		}
-		
+		//Actualiza para poder ver los cambios al momento.		
 		actualiza();
 	}
 
@@ -90,8 +87,10 @@ public class gestionFicherosImpl implements GestionFicheros {
 	public void creaFichero(String arg0) throws GestionFicherosException {
 		File file = new File(carpetaDeTrabajo, arg0);
 		
+		//Compruebo que no existe un archivo con ese mismo nombre.
 		if(!file.exists()){
 			if(carpetaDeTrabajo.canWrite()){
+				//Envuelto en un try catch creo el fichero. Si no puedo genera un mensaje de error.
 				try {
 					file.createNewFile();
 				} catch (IOException e) {
@@ -99,29 +98,34 @@ public class gestionFicherosImpl implements GestionFicheros {
 					e.printStackTrace();
 				}
 			}else{
+				//Si no tiene permiso de escritura lanzara un error.
 				throw new GestionFicherosException("Error. No tiene permiso de escritura");
 			}
 		}else{
+			//Se lanza un error.
 			throw new GestionFicherosException("Error. Ya existe un archivo con ese nombre");
 		}
-		
+		//Actualiza para poder ver los cambios al momento.		
 		actualiza();
 	}
 
 	@Override
 	public void elimina(String arg0) throws GestionFicherosException {
 		File file = new File(carpetaDeTrabajo, arg0);
-		
+		//Si el elemento exite, comprueba que puede modificar en la carpeta y si es asi, mediante el metodo delte() 
+		//elimina el elemento seleccionado.
 		if(file.exists()){
 			if(carpetaDeTrabajo.canWrite()){
 				file.delete();
 			}else{
+				//Si no puede modificarse lanza un error.
 				throw new GestionFicherosException("Error. No tiene permiso de escritura");
 			}
 		}else{
+			//Se lanza otro error.
 			throw new GestionFicherosException("Error. No existe el elemento");
 		}
-		
+		//Actualiza para poder ver los cambios al momento.
 		actualiza();
 	}
 
